@@ -12,7 +12,7 @@ import jxl.WorkbookSettings;
 import jxl.read.biff.BiffException;
 
 public class Excel2SqlGenerator {
-	private static final String EXCELPATH = "/Users/sem0045/Desktop/Tuik/EGITIM_MAHALLE.xls";
+	private static final String EXCELPATH = "/Path/to/Source/excelfile.xls";
 	private static final String OUTPUTNAME = "InsertScriptsGeneratedFromExcel.sql";
 	private static final String TABLENAME = "tuik.egitim_mahalle";
 	private static List<Column> columnList;
@@ -28,22 +28,8 @@ public class Excel2SqlGenerator {
 	
 	private static void configureColumns(){
 		columnList = new ArrayList<>();
-		columnList.add(new Column("YIL",Column.TYPE_NUMBER));
-		columnList.add(new Column("ILKAYITNO",Column.TYPE_NUMBER));
-		columnList.add(new Column("ILADI",Column.TYPE_STRING));
-		columnList.add(new Column("ILCEKAYITNO",Column.TYPE_STRING));
-		columnList.add(new Column("ILCEADI",Column.TYPE_STRING));
-		columnList.add(new Column("BUCAKKAYITNO",Column.TYPE_NUMBER));
-		columnList.add(new Column("BUCAKADI",Column.TYPE_STRING));
-		columnList.add(new Column("BELEDIYEKAYITNO",Column.TYPE_NUMBER));
-		columnList.add(new Column("BELEDIYEADI",Column.TYPE_STRING));
-		columnList.add(new Column("KOYKAYITNO",Column.TYPE_NUMBER));
-		columnList.add(new Column("KOYADI",Column.TYPE_STRING));
-		columnList.add(new Column("MAHALLEKODU",Column.TYPE_NUMBER));
-		columnList.add(new Column("MAHALLEADI",Column.TYPE_STRING));
-		columnList.add(new Column("EGITIM_DURUMU",Column.TYPE_NUMBER));
-		columnList.add(new Column("EGITIM_DURUMU_ADI",Column.TYPE_STRING));
-		columnList.add(new Column("NUFUS",Column.TYPE_NUMBER));
+		columnList.add(new Column("col1", Column.TYPE_NUMBER));
+		columnList.add(new Column("col2", Column.TYPE_STRING));
 	}
 	
 	private static void generateSqlInsertScripts(int sheetNum) throws IOException{
