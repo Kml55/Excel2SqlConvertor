@@ -12,9 +12,9 @@ import jxl.WorkbookSettings;
 import jxl.read.biff.BiffException;
 
 public class Excel2SqlGenerator {
-	private static final String EXCELPATH = "/Path/to/Source/excelfile.xls";
+	private static final String EXCELPATH = "/path/to/xls.xls";
 	private static final String OUTPUTNAME = "InsertScriptsGeneratedFromExcel.sql";
-	private static final String TABLENAME = "tuik.egitim_mahalle";
+	private static final String TABLENAME = "schema.tablename";
 	private static List<Column> columnList;
 	
 	public static void main(String[] args) {
@@ -28,8 +28,8 @@ public class Excel2SqlGenerator {
 	
 	private static void configureColumns(){
 		columnList = new ArrayList<>();
-		columnList.add(new Column("col1", Column.TYPE_NUMBER));
-		columnList.add(new Column("col2", Column.TYPE_STRING));
+		columnList.add(new Column("ILKAYITNO",Column.TYPE_NUMBER));
+		columnList.add(new Column("ILADI",Column.TYPE_STRING));
 	}
 	
 	private static void generateSqlInsertScripts(int sheetNum) throws IOException{

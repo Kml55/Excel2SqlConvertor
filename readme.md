@@ -1,1 +1,1 @@
-Create your insert sql scripts file from excel file
+Create your insert sql scripts file from excel or csv files
