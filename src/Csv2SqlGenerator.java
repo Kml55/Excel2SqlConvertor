@@ -4,20 +4,26 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Scanner;
 
 import org.apache.commons.lang3.StringUtils;
 
 public class Csv2SqlGenerator {
-	private static final String CSVPATH = "/path/to/csv.csv";
+	private static final String CSVPATH = "/Path/to/files/file.csv";
 	private static final String OUTPUTNAME = "InsertScriptsGeneratedFromExcel.sql";
 	private static final String TABLENAME = "schema.tablename";
 	private static final int IGNORECOUNT = 1;
+	private static final String FIELD_DELIMETER = ",";
+	private static final String TEXT_DELIMETER = "\"";
+	private static final HashMap<String,String> replaceMap = new HashMap<>();
 	private static List<Column> columnList;
 	
 	public static void main(String[] args) {
 		try {
+			fillReplaceMap();
 			configureColumns();
 			generateSqlInsertScripts();
 		} catch (IOException e) {
@@ -25,10 +31,23 @@ public class Csv2SqlGenerator {
 		}
 	}
 	
+	private static void fillReplaceMap(){
+		replaceMap.put(TEXT_DELIMETER, "");
+		replaceMap.put(FIELD_DELIMETER+TEXT_DELIMETER, "");
+	}
+	
+	private static String evalReplaceMap(String line){
+		for (Entry<String, String> entry: replaceMap.entrySet()) {
+			line = line.replace(entry.getKey(), entry.getValue()); 
+		}
+		return line;
+	}
+	
 	private static void configureColumns(){
 		columnList = new ArrayList<>();
-		columnList.add(new Column("ILKAYITNO",Column.TYPE_NUMBER));
-		columnList.add(new Column("ILADI",Column.TYPE_STRING));
+		columnList.add(new Column("column1",Column.TYPE_NUMBER));
+		columnList.add(new Column("column2",Column.TYPE_NUMBER));
+		columnList.add(new Column("column3",Column.TYPE_STRING));
 	}
 	
 	private static void generateSqlInsertScripts() throws FileNotFoundException {
@@ -36,14 +55,14 @@ public class Csv2SqlGenerator {
 		StringBuffer generatedSql = new StringBuffer();
 		int ignore = 0;
 	    while(scan.hasNextLine()){
-	        String line = scan.nextLine();
+	        String line = evalReplaceMap(scan.nextLine());
 	        String insertScript = "INSERT INTO "+TABLENAME+" (";
 			for (Column column : columnList) {
 				insertScript+=column.name+",";
 			}
 			insertScript = insertScript.substring(0, insertScript.length()-1);
 			insertScript+=") values (";
-	        String[] cellValues = StringUtils.splitPreserveAllTokens(line,",");
+	        String[] cellValues = StringUtils.splitPreserveAllTokens(line,FIELD_DELIMETER);
 	        int columnIndex = 0;
 	        while (columnIndex<columnList.size()) {
 				String cellVal=cellValues[columnIndex];
